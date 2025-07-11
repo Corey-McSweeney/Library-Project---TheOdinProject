@@ -1,0 +1,63 @@
+h1.title {
+    text-align: center;
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+h2.subtitle {
+    text-align: center;
+    font-style: italic;
+    color: grey;
+    font-size: 1rem;
+}
+
+.center {
+    text-align: center;
+}
+
+#new-book-btn {
+    background-color: blue;
+    color: white;
+    font-size: 1.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    outline: none;
+}
+
+#new-book-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    z-index: 1000;
+}
+
+#new-book-form div {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.book-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    padding: 16px;
+    margin: 12px;
+    width: 200px;
+}
+
+#book-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card-title {
+    text-align: center;
+}
