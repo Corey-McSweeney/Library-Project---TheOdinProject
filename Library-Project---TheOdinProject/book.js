@@ -8,6 +8,11 @@ function Book(title, author, pages, read) {
     throw Error("You must use the 'new' operator for this function");
   }
 
+  // Change read status prototype method
+  Book.prototype.toggleRead = function () {
+    this.read = !this.read;
+  };
+
   // Parameters
   this.id = crypto.randomUUID();
   this.title = title;
@@ -31,7 +36,7 @@ function render() {
     // Create instance for current itteration in loop
     let book = myLibrary[i];
     let bookElement = document.createElement("div");
-    bookElement.innerHTML = `<p>${book.title}</p>`
+    bookElement.innerHTML = `<p>${book.title}</p>`;
     libraryElement.appendChild(bookElement);
   }
 }
@@ -42,7 +47,7 @@ function render() {
   const container = document.getElementById("library");
 
   // Clear the container - ensure no duplicate objects rendered
-  container.innerHTML= "";
+  container.innerHTML = "";
 
   // Itterate every object in array
   myLibrary.forEach((book) => {
@@ -53,7 +58,7 @@ function render() {
     // Create title
     const title = document.createElement("h3");
     title.textContent = book.title;
-    title.classList.add('card-title');
+    title.classList.add("card-title");
 
     // Create author
     const author = document.createElement("p");
@@ -67,14 +72,43 @@ function render() {
     const read = document.createElement("p");
     read.textContent = `Read: ${book.read ? "Yes" : "No"}`;
 
+    // Toggle Read Button
+    const toggleBtn = document.createElement("button");
+    toggleBtn.textContent = "Toggle Read";
+    toggleBtn.classList.add("toggle-read-btn");
+    toggleBtn.addEventListener("click", () => {
+      book.toggleRead();
+      render(); // Re-render after toggling
+    });
+
+    // Create a delete button
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = `Delete`;
+    deleteBtn.classList.add("delete-btn"); // Add class for styling
+
+    // Event listener for delete button
+    deleteBtn.addEventListener("click", () => {
+      // remove book from array using id
+      const idToDelete = book.id;
+      const index = myLibrary.findIndex((b) => b.id === idToDelete);
+      if (index !== -1) {
+        myLibrary.splice(index, 1); // Remove from array
+      }
+
+      // Re-render page to remove deleted event
+      render();
+    });
+
     // Append each element
     card.appendChild(title);
     card.appendChild(author);
     card.appendChild(pages);
     card.appendChild(read);
+    card.appendChild(toggleBtn);
+    card.appendChild(deleteBtn);
 
     container.appendChild(card);
-  })
+  });
 }
 
 // Function to add a book object to the library
@@ -93,26 +127,30 @@ function addBookToLibrary() {
 
 // Event Listeners
 // References
-const newBookBtn = document.getElementById('new-book-btn');
-const newBookForm = document.getElementById('new-book-form');
+const newBookBtn = document.getElementById("new-book-btn");
+const newBookForm = document.getElementById("new-book-form");
 
 // Toggle display
-newBookBtn.addEventListener('click', () => {
-  if (newBookForm.style.display === 'none' || newBookForm.style.display === '') {
-    newBookForm.style.display = 'block'; // Show form
+newBookBtn.addEventListener("click", () => {
+  if (
+    newBookForm.style.display === "none" ||
+    newBookForm.style.display === ""
+  ) {
+    newBookForm.style.display = "block"; // Show form
   } else {
-    newBookForm.style.display = 'none'; // Hide form if currently visible
+    newBookForm.style.display = "none"; // Hide form if currently visible
   }
 });
 
 // Submit form
-document.querySelector("#new-book-form").addEventListener("submit", function (event) {
-  event.preventDefault();
-  addBookToLibrary();
-  // Clear and close form
-  newBookForm.reset();
-  newBookForm.style.display = 'none';
-})
-
+document
+  .querySelector("#new-book-form")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+    addBookToLibrary();
+    // Clear and close form
+    newBookForm.reset();
+    newBookForm.style.display = "none";
+  });
 
 // Function to loop all books and display on the page
